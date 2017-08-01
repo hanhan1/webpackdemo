@@ -1,12 +1,18 @@
 import bar from './bar';
 import Vue from 'vue';
 import AV from 'leancloud-storage';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-default/index.css';
+
 var APP_ID = 'V6pPTg64lUc5ylqgv329lR4E-gzGzoHsz';
 var APP_KEY = '8OPVfG5xnXz5D9QXSjUSEfnQ';
 AV.init({
   appId: APP_ID,
   appKey: APP_KEY,
 });
+
+Vue.use(ElementUI);
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -44,6 +50,9 @@ var app = new Vue({
     this.fetchTodos()
   },
   methods: {
+    handleClick(tab,event){
+       console.log(tab,event)
+    },
     fetchTodos: function () {
       if (this.currentUser) {
         var query = new AV.Query('AllTodos');

@@ -1,47 +1,53 @@
 <html>
 
 <head>
+  <meta charset=utf-8>
 </head>
 
 <body>
   <div id="app">
     <section id="signInAndSignUp" v-if="!currentUser">
       <div>
-        <label><input type="radio" name="type" v-model="actionType" value="signUp">注册</label>
-        <label><input type="radio" name="type" v-model="actionType" value="login">登入</label>
+        <el-tabs v-model="actionType"  @tab-click="handleClick">
+          <el-tab-pane label="注册" name="signUp"></el-tab-pane>
+          <el-tab-pane label="登录" name="login"></el-tab-pane>
+        </el-tabs>
+        
       </div>
       <div class="signUp" v-if="actionType=='signUp'">
         <form @submit.prevent=signUp>
           <div class="formRow">
-            用户名<input type="text"v-model="formData.username">
+            用户名<el-input type="text" v-model="formData.username">
           </div>
           <div class="formRow">
-            密码<input type="password"v-model="formData.password">
+            密码<el-input type="password" v-model="formData.password">
           </div>
           <div class="formActions">
-            <input type="submit" value="注册">
+            <el-button @click="signUp">注册</el-button>
           </div>
         </form>
       </div>
       <div class="login" v-if="actionType=='login'">
         <form @submit.prevent=login>
           <div class="formRow">
-            用户名<input type="text" v-model="formData.username">
+            用户名<el-input type="text" v-model="formData.username">
           </div>
           <div class="formRow">
-            密码<input type="password" v-model="formData.password">
+            密码<el-input type="password" v-model="formData.password">
           </div>
           <div class="formActions">
-            <input type="submit" value="登入">
+            <el-button  @click="login">登录</el-button>
           </div>
         </form>
       </div>
     </section>
     <section id="todo" v-if="currentUser">
       <span>{{currentUser.username}}</span>
-      <p><button @click="logout">登出</button></p>
+      <p>
+        <el-button @click="logout">登出</el-button>
+      </p>
       <div class="newTask">
-        <input type="text" v-model="newTodo" @keypress.enter="addTodo">
+        <input type="text" v-model="newTodo" @keypress.enter="addTodo" placeholder="请输入你的Todos">
       </div>
       <ol class="todos">
         <li v-for="todo in todoList">
@@ -49,7 +55,7 @@
           <span v-if="todo.done">已完成</span>
           <span v-else>未完成</span>
           <span>{{todo.createdAt}}</span>
-          <button id="rmbtn" @click="removeTodo(todo)">x</button>
+          <i class="el-icon-delete2" id="rmbtn" @click="removeTodo(todo)"></i>
         </li>
       </ol>
     </section>
@@ -66,7 +72,7 @@
     align-items: center;
     justify-content: space-between;
   }
-
+  
   .todos {
     min-width: 200px;
     min-height: 400px;
